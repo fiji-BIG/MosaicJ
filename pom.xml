@@ -24,6 +24,13 @@
 		</dependency>
 	</dependencies>
 
+	<scm>
+		<connection>scm:git:git://github.com/fiji/MosaicJ</connection>
+		<developerConnection>scm:git:git@github.com:fiji/MosaicJ</developerConnection>
+		<tag>HEAD</tag>
+		<url>https://github.com/fiji/MosaicJ</url>
+	</scm>
+
 	<repositories>
 		<!-- NB: for project parent, in case of partial checkout -->
 		<repository>
