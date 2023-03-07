@@ -3,6 +3,12 @@ package ch.epfl.big;
 import ij.IJ;
 import ij.ImageJ;
 
+
+/**
+ *
+ * To launch the plugin (for the layout bug)
+ *  - Comment the lines 546-552 where the check of TurboReg is done
+ */
 public class SimpleIJLaunch {
     public static void main(String[] args) {
 
@@ -15,13 +21,6 @@ public class SimpleIJLaunch {
         // start ImageJ
         new ImageJ();
         IJ.runPlugIn(clazz.getName(),"");
-
-       /* final ImageJ ij = new ImageJ();
-        ij.ui().showUI();
-        new MosaicJ_().run("");
-        //IJ.run("MosaicJ", "");
-        //DebugTools.enableLogging("DEBUG");
-        //ij.command().run(ArgoLight.class, true).get();*/
     }
 
 }

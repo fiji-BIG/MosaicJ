@@ -12,6 +12,7 @@
 		<relativePath />
 	</parent>
 
+	<groupId>ch.epfl.big</groupId>
 	<artifactId>MosaicJ_</artifactId>
 	<version>2.0.1-SNAPSHOT</version>
 
@@ -82,11 +83,6 @@
 			<id>imagej.public</id>
 			<url>http://maven.imagej.net/content/groups/public</url>
 		</repository>
-		<!--<repository>
-			<id>scijava.public</id>
-			<url>https://maven.scijava.org/content/groups/public</url>
-		</repository>-->
-
 	</repositories>
 
 	<mailingLists>
@@ -102,15 +98,6 @@
 			<groupId>net.imagej</groupId>
 			<artifactId>ij</artifactId>
 		</dependency>
-		<!--<dependency>
-			<groupId>net.imagej</groupId>
-			<artifactId>imagej</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>net.imagej</groupId>
-			<artifactId>imagej-legacy</artifactId>
-		</dependency>-->
 	</dependencies>
 
 </project>
