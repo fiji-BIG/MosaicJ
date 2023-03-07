@@ -1,4 +1,4 @@
-/*====================================================================
+package ch.epfl.big;/*====================================================================
 | Version: March 13, 2008
 \===================================================================*/
 
@@ -69,6 +69,7 @@ import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
+//import java.awt.Image;
 import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.awt.Menu;
@@ -101,23 +102,12 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Stack;
 
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JViewport;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 /*====================================================================
-|	MosaicJ_
+|	ch.epfl.big.MosaicJ_
 \===================================================================*/
 public class MosaicJ_
 	extends
@@ -127,7 +117,7 @@ public class MosaicJ_
 		ChangeListener,
 		PlugIn
 
-{ /* begin class MosaicJ_ */
+{ /* begin class ch.epfl.big.MosaicJ_ */
 
 /*....................................................................
 	private variables
@@ -143,50 +133,45 @@ private final JScrollPane thumbnailScrollPane = new JScrollPane(
 private final JScrollPane workScrollPane = new JScrollPane(workArea,
 	JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 	JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-private final MenuItem abort = new MenuItem("Abort",
-	new MenuShortcut(KeyEvent.VK_W));
-private final MenuItem magnification = new MenuItem("");
-private final MenuItem magnify = new MenuItem("Magnify",
-	new MenuShortcut(KeyEvent.VK_ADD));
-private final MenuItem minify = new MenuItem("Minify",
-	new MenuShortcut(KeyEvent.VK_SUBTRACT));
-private final MenuItem openFile = new MenuItem("Open Image...",
-	new MenuShortcut(KeyEvent.VK_O));
-private final MenuItem openImageSequence = new MenuItem(
-	"Open Image Sequence...", new MenuShortcut(KeyEvent.VK_O, true));
+private final JMenuItem abort = new JMenuItem("Abort");
+private final JMenuItem magnification = new JMenuItem("");
+private final JMenuItem magnify = new JMenuItem("Magnify");
+private final JMenuItem minify = new JMenuItem("Minify");
+private final JMenuItem openFile = new JMenuItem("Open Image...");
+private final JMenuItem openImageSequence = new JMenuItem("Open Image Sequence...");
 private int id = 0;
-private static MenuItem blending = null;
-private static MenuItem createMosaic = null;
-private static MenuItem credits = null;
-private static MenuItem decolorization = null;
-private static MenuItem deselect = null;
-private static MenuItem forget = null;
-private static MenuItem freeze = null;
-private static MenuItem group = null;
-private static MenuItem help = null;
-private static MenuItem hide = null;
-private static MenuItem loadPreMosaic = null;
-private static MenuItem maximizeContrast = null;
-private static MenuItem nudgeDown = null;
-private static MenuItem nudgeLeft = null;
-private static MenuItem nudgeRight = null;
-private static MenuItem nudgeUp = null;
-private static MenuItem outputLog = null;
-private static MenuItem quickAndDirty = null;
-private static MenuItem replay = null;
-private static MenuItem resetContrast = null;
-private static MenuItem resetMosaicJ = null;
-private static MenuItem revertPreMosaic = null;
-private static MenuItem rotation = null;
-private static MenuItem savePreMosaic = null;
-private static MenuItem selectAll = null;
-private static MenuItem sendToBack = null;
-private static MenuItem setContrast = null;
-private static MenuItem showAll = null;
-private static MenuItem status = null;
-private static MenuItem stow = null;
-private static MenuItem unfreeze = null;
-private static MenuItem ungroup = null;
+private static JMenuItem blending = null;
+private static JMenuItem createMosaic = null;
+private static JMenuItem credits = null;
+private static JMenuItem decolorization = null;
+private static JMenuItem deselect = null;
+private static JMenuItem forget = null;
+private static JMenuItem freeze = null;
+private static JMenuItem group = null;
+private static JMenuItem help = null;
+private static JMenuItem hide = null;
+private static JMenuItem loadPreMosaic = null;
+private static JMenuItem maximizeContrast = null;
+private static JMenuItem nudgeDown = null;
+private static JMenuItem nudgeLeft = null;
+private static JMenuItem nudgeRight = null;
+private static JMenuItem nudgeUp = null;
+private static JMenuItem outputLog = null;
+private static JMenuItem quickAndDirty = null;
+private static JMenuItem replay = null;
+private static JMenuItem resetContrast = null;
+private static JMenuItem resetMosaicJ = null;
+private static JMenuItem revertPreMosaic = null;
+private static JMenuItem rotation = null;
+private static JMenuItem savePreMosaic = null;
+private static JMenuItem selectAll = null;
+private static JMenuItem sendToBack = null;
+private static JMenuItem setContrast = null;
+private static JMenuItem showAll = null;
+private static JMenuItem status = null;
+private static JMenuItem stow = null;
+private static JMenuItem unfreeze = null;
+private static JMenuItem ungroup = null;
 private static boolean blend = true;
 private static boolean createOutputLog = false;
 private static boolean hidden = false;
@@ -268,7 +253,7 @@ public void actionPerformed (
 	if (e.getSource() == magnify) {
 		updateScale(reductionFactor / 2);
 		magnify.setEnabled(1 < reductionFactor);
-		magnification.setLabel(getMagnificationAsString());
+		magnification.setText(getMagnificationAsString());
 	}
 	if (e.getSource() == maximizeContrast) {
 		playField.maximizeContrastSelectedThumbs();
@@ -276,7 +261,7 @@ public void actionPerformed (
 	if (e.getSource() == minify) {
 		updateScale(2 * reductionFactor);
 		magnify.setEnabled(true);
-		magnification.setLabel(getMagnificationAsString());
+		magnification.setText(getMagnificationAsString());
 	}
 	if (e.getSource() == nudgeDown) {
 		playField.translateSelectedThumbs(0, 1);
@@ -448,77 +433,110 @@ public void stateChanged (
 public void run (
 	final String arg
 ) {
+	abort.setMnemonic(KeyEvent.VK_W);
+	magnify.setMnemonic(KeyEvent.VK_ADD);
+	minify.setMnemonic(KeyEvent.VK_SUBTRACT);
+	openFile.setMnemonic(KeyEvent.VK_O);
+	openImageSequence.setMnemonic(KeyEvent.VK_Q); // Previous shortcut to (O,true)
+
 	setTitle("MosaicJ " + getMagnificationAsString());
 	hidden = false;
-	blending = new MenuItem((blend)
+	blending = new JMenuItem((blend)
 		? ("Deactivate Blending")
 		: ("Activate Blending"));
-	createMosaic = new MenuItem(
-		"Create Mosaic", new MenuShortcut(KeyEvent.VK_S));
-	credits = new MenuItem(
-		"Credits");
-	decolorization = new MenuItem((smartDecolorization)
+
+	createMosaic = new JMenuItem("Create Mosaic");
+	createMosaic.setMnemonic(KeyEvent.VK_M); // Previous shortcut to S
+
+	credits = new JMenuItem("Credits");
+
+	decolorization = new JMenuItem((smartDecolorization)
 		? ("Deactivate Smart Color Conversion")
 		: ("ActivateSmart Color Conversion"));
-	deselect = new MenuItem(
-		"Deselect", new MenuShortcut(KeyEvent.VK_D));
-	forget = new MenuItem(
-		"Forget", new MenuShortcut(KeyEvent.VK_X));
-	freeze = new MenuItem(
-		"Freeze", new MenuShortcut(KeyEvent.VK_F));
-	group = new MenuItem(
-		"Group", new MenuShortcut(KeyEvent.VK_G));
-	help = new MenuItem(
-		"Help");
-	hide = new MenuItem(
-		"Hide", new MenuShortcut(KeyEvent.VK_H, true));
-	loadPreMosaic = new MenuItem(
-		"Load Pre-Mosaic...", new MenuShortcut(KeyEvent.VK_R, true));
-	maximizeContrast = new MenuItem(
-		"Maximize Contrast", new MenuShortcut(KeyEvent.VK_L, true));
-	nudgeDown = new MenuItem(
-		"Nudge Down", new MenuShortcut(KeyEvent.VK_DOWN));
-	nudgeLeft = new MenuItem(
-		"Nudge Left", new MenuShortcut(KeyEvent.VK_LEFT));
-	nudgeRight = new MenuItem(
-		"Nudge Right", new MenuShortcut(KeyEvent.VK_RIGHT));
-	nudgeUp = new MenuItem(
-		"Nudge Up", new MenuShortcut(KeyEvent.VK_UP));
-	outputLog = new MenuItem((createOutputLog)
+
+	deselect = new JMenuItem("Deselect");
+	deselect.setMnemonic(KeyEvent.VK_D);
+
+	forget = new JMenuItem("Forget");
+	forget.setMnemonic(KeyEvent.VK_X);
+
+	freeze = new JMenuItem("Freeze");
+	freeze.setMnemonic(KeyEvent.VK_F);
+
+	group = new JMenuItem("Group");
+	group.setMnemonic(KeyEvent.VK_G);
+
+	help = new JMenuItem("Help");
+
+	hide = new JMenuItem("Hide");
+	hide.setMnemonic(KeyEvent.VK_H);
+
+	loadPreMosaic = new JMenuItem("Load Pre-Mosaic...");
+	loadPreMosaic.setMnemonic(KeyEvent.VK_R);
+
+	maximizeContrast = new JMenuItem("Maximize Contrast");
+	maximizeContrast.setMnemonic(KeyEvent.VK_L);
+
+	nudgeDown = new JMenuItem("Nudge Down");
+	nudgeDown.setMnemonic(KeyEvent.VK_DOWN);
+
+	nudgeLeft = new JMenuItem("Nudge Left");
+	nudgeLeft.setMnemonic(KeyEvent.VK_LEFT);
+
+	nudgeRight = new JMenuItem("Nudge Right");
+	nudgeRight.setMnemonic(KeyEvent.VK_RIGHT);
+
+	nudgeUp = new JMenuItem("Nudge Up");
+	nudgeUp.setMnemonic(KeyEvent.VK_UP);
+
+	outputLog = new JMenuItem((createOutputLog)
 		? ("Deactivate Log File")
 		: ("Activate Log File"));
-	quickAndDirty = new MenuItem((quickAndDirtyScaling)
+
+	quickAndDirty = new JMenuItem((quickAndDirtyScaling)
 		? ("Deactivate Quick&Dirty Scaling")
 		: ("Activate Quick&Dirty Scaling"));
-	replay = new MenuItem(
-		"Replay from Log...");
-	resetMosaicJ = new MenuItem(
-		"Reset MosaicJ");
-	resetContrast = new MenuItem(
-		"Reset Contrast", new MenuShortcut(KeyEvent.VK_R));
-	revertPreMosaic = new MenuItem(
-		"Previous Pre-Mosaic...", new MenuShortcut(KeyEvent.VK_Z));
-	rotation = new MenuItem((rotate)
+
+	replay = new JMenuItem("Replay from Log...");
+
+	resetMosaicJ = new JMenuItem("Reset MosaicJ");
+
+	resetContrast = new JMenuItem("Reset Contrast");
+	resetContrast.setMnemonic(KeyEvent.VK_C); // Previous shortcut to R
+
+	revertPreMosaic = new JMenuItem("Previous Pre-Mosaic...");
+	revertPreMosaic.setMnemonic(KeyEvent.VK_Z);
+
+	rotation = new JMenuItem((rotate)
 		? ("Deactivate Rotation")
 		: ("Activate Rotation"));
-	savePreMosaic = new MenuItem(
-		"Save Pre-Mosaic...", new MenuShortcut(KeyEvent.VK_S, true));
-	selectAll = new MenuItem(
-		"Select All", new MenuShortcut(KeyEvent.VK_A));
-	sendToBack = new MenuItem(
-		"Send to Back", new MenuShortcut(KeyEvent.VK_B));
-	setContrast = new MenuItem(
-		"Set Contrast...", new MenuShortcut(KeyEvent.VK_L));
-	showAll = new MenuItem(
-		"Show All", new MenuShortcut(KeyEvent.VK_A, true));
-	status = new MenuItem(
-		"Status");
-	stow = new MenuItem(
-		"Stow", new MenuShortcut(KeyEvent.VK_T));
-	unfreeze = new MenuItem(
-		"Unfreeze", new MenuShortcut(KeyEvent.VK_F, true));
-	ungroup = new MenuItem(
-		"Ungroup", new MenuShortcut(KeyEvent.VK_U));
+
+	savePreMosaic = new JMenuItem("Save Pre-Mosaic...");
+	savePreMosaic.setMnemonic(KeyEvent.VK_S);
+
+	selectAll = new JMenuItem("Select All");
+	selectAll.setMnemonic(KeyEvent.VK_A);
+
+	sendToBack = new JMenuItem("Send to Back");
+	sendToBack.setMnemonic(KeyEvent.VK_B);
+
+	setContrast = new JMenuItem("Set Contrast...");
+	setContrast.setMnemonic(KeyEvent.VK_K); // Previous shortcut to L
+
+	showAll = new JMenuItem("Show All");
+	showAll.setMnemonic(KeyEvent.VK_E); // Previous shortcut to A
+
+	status = new JMenuItem("Status");
+
+	stow = new JMenuItem("Stow");
+	stow.setMnemonic(KeyEvent.VK_T);
+
+	unfreeze = new JMenuItem("Unfreeze");
+	unfreeze.setMnemonic(KeyEvent.VK_N); // Previous shortcut to F
+
+	ungroup = new JMenuItem("Ungroup");
+	ungroup.setMnemonic(KeyEvent.VK_U);
+
 	if ((SCREEN_WIDTH < 640) || (SCREEN_HEIGHT < 480)) {
 		IJ.error("Screen too small to proceed.");
 		return;
@@ -546,7 +564,6 @@ public void run (
 	getContentPane().setLayout(new BorderLayout(0, 0));
 	getContentPane().add(workScrollPane, BorderLayout.CENTER);
 	getContentPane().add(thumbnailScrollPane, BorderLayout.SOUTH);
-	setVisible(true);
 
 	playField = new MosaicJPlayField(workArea.getWidth(), workArea.getHeight(),
 		workScrollPane, reductionFactor);
@@ -558,7 +575,7 @@ public void run (
 	getContentPane().remove(progressBar);
 	getContentPane().validate();
 
-	final Menu fileMenu = new Menu("File");
+	final JMenu fileMenu = new JMenu("File");
 	openFile.addActionListener(this);
 	fileMenu.add(openFile);
 	openImageSequence.addActionListener(this);
@@ -591,7 +608,7 @@ public void run (
 	abort.addActionListener(this);
 	fileMenu.add(abort);
 
-	final Menu editMenu = new Menu("Edit");
+	final JMenu editMenu = new JMenu("Edit");
 	selectAll.addActionListener(this);
 	editMenu.add(selectAll);
 	deselect.addActionListener(this);
@@ -611,7 +628,7 @@ public void run (
 	nudgeDown.addActionListener(this);
 	editMenu.add(nudgeDown);
 
-	final Menu objectMenu = new Menu("Object");
+	final JMenu objectMenu = new JMenu("Object");
 	sendToBack.addActionListener(this);
 	objectMenu.add(sendToBack);
 	objectMenu.addSeparator();
@@ -636,7 +653,7 @@ public void run (
 	resetContrast.addActionListener(this);
 	objectMenu.add(resetContrast);
 
-	final Menu scaleMenu = new Menu("Scale");
+	final JMenu scaleMenu = new JMenu("Scale");
 	minify.addActionListener(this);
 	scaleMenu.add(minify);
 	magnify.setEnabled(1 < reductionFactor);
@@ -649,7 +666,7 @@ public void run (
 	magnification.setEnabled(false);
 	scaleMenu.add(magnification);
 
-	final Menu helpMenu = new Menu("Help");
+	final JMenu helpMenu = new JMenu("Help");
 	help.addActionListener(this);
 //@	helpMenu.add(help);
 	credits.addActionListener(this);
@@ -657,16 +674,18 @@ public void run (
 	status.addActionListener(this);
 	helpMenu.add(status);
 
-	final MenuBar menuBar = new MenuBar();
+	final JMenuBar menuBar = new JMenuBar();
 	menuBar.add(fileMenu);
 	menuBar.add(editMenu);
 	menuBar.add(objectMenu);
 	menuBar.add(scaleMenu);
 	menuBar.add(helpMenu);
-	setMenuBar(menuBar);
+	setJMenuBar(menuBar);
 
 	loadPreMosaic(IJ.getDirectory("temp") + "MosaicJPreMosaic", false);
 	setActivatedMenus(true, true, true, false, false);
+
+	setVisible(true);
 } /* end run */
 
 /*....................................................................
@@ -1347,10 +1366,10 @@ private void savePreMosaic (
 	}
 } /* savePreMosaic */
 
-} /* end class MosaicJ_ */
+} /* end class ch.epfl.big.MosaicJ_ */
 
 /*====================================================================
-|	MosaicJCredits
+|	ch.epfl.big.MosaicJCredits
 \===================================================================*/
 class MosaicJCredits
 	extends
@@ -1358,7 +1377,7 @@ class MosaicJCredits
 	implements
 		ActionListener
 
-{ /* begin class MosaicJCredits */
+{ /* begin class ch.epfl.big.MosaicJCredits */
 
 /*....................................................................
 	ActionListener methods
@@ -1418,18 +1437,18 @@ public MosaicJCredits (
 	pack();
 	GUI.center(this);
 	setVisible(true);
-} /* end MosaicJCredits */
+} /* end ch.epfl.big.MosaicJCredits */
 
-} /* end class MosaicJCredits */
+} /* end class ch.epfl.big.MosaicJCredits */
 
 /*====================================================================
-|	MosaicJEdge
+|	ch.epfl.big.MosaicJEdge
 \===================================================================*/
 class MosaicJEdge
 	implements
 		Comparable
 
-{ /* begin class MosaicJEdge */
+{ /* begin class ch.epfl.big.MosaicJEdge */
 
 /*....................................................................
 	private variables
@@ -1454,7 +1473,7 @@ public MosaicJEdge (
 	this.source = source;
 	this.target = target;
 	this.edgeWeight = edgeWeight;
-} /* end MosaicJEdge */
+} /* end ch.epfl.big.MosaicJEdge */
 
 /*....................................................................
 	Comparable methods
@@ -1567,16 +1586,16 @@ public void swap (
 	targetPoints = p;
 } /* end swap */
 
-} /* end class MosaicJEdge */
+} /* end class ch.epfl.big.MosaicJEdge */
 
 /*====================================================================
-|	MosaicJHierarchy
+|	ch.epfl.big.MosaicJHierarchy
 \===================================================================*/
 class MosaicJHierarchy
 	extends
 		Component
 
-{ /* begin class MosaicJHierarchy */
+{ /* begin class ch.epfl.big.MosaicJHierarchy */
 
 /*....................................................................
 	private variables
@@ -1600,7 +1619,7 @@ public MosaicJHierarchy (
 	final int reductionFactor
 ) {
 	this.reductionFactor = reductionFactor;
-} /* end MosaicJHierarchy */
+} /* end ch.epfl.big.MosaicJHierarchy */
 
 /*------------------------------------------------------------------*/
 public MosaicJHierarchy (
@@ -1616,7 +1635,7 @@ public MosaicJHierarchy (
 		thumb.getLocation().y * reductionFactor);
 	thumb.setTrueLocation(trueLocation);
 	createOutline();
-} /* end MosaicJHierarchy */
+} /* end ch.epfl.big.MosaicJHierarchy */
 
 /*....................................................................
 	Component methods
@@ -1892,10 +1911,10 @@ private boolean overlapContains (
 	return(inside);
 } /* end overlapContains */
 
-} /* end class MosaicJHierarchy */
+} /* end class ch.epfl.big.MosaicJHierarchy */
 
 /*====================================================================
-|	MosaicJPlayField
+|	ch.epfl.big.MosaicJPlayField
 \===================================================================*/
 class MosaicJPlayField
 	extends
@@ -1905,7 +1924,7 @@ class MosaicJPlayField
 		MouseListener,
 		MouseMotionListener
 
-{ /* begin class MosaicJPlayField */
+{ /* begin class ch.epfl.big.MosaicJPlayField */
 
 /*....................................................................
 	private variables
@@ -1939,7 +1958,7 @@ public MosaicJPlayField (
 	setLayout(this);
 	addMouseListener(this);
 	addMouseMotionListener(this);
-} /* end MosaicJPlayField */
+} /* end ch.epfl.big.MosaicJPlayField */
 
 /*....................................................................
 	Component methods
@@ -2706,10 +2725,10 @@ private void select (
 	repaint(bounds.x, bounds.y, bounds.width, bounds.height);
 } /* end select */
 
-} /* end class MosaicJPlayField */
+} /* end class ch.epfl.big.MosaicJPlayField */
 
 /*====================================================================
-|	MosaicJStatus
+|	ch.epfl.big.MosaicJStatus
 \===================================================================*/
 class MosaicJStatus
 	extends
@@ -2717,7 +2736,7 @@ class MosaicJStatus
 	implements
 		ActionListener
 
-{ /* begin class MosaicJStatus */
+{ /* begin class ch.epfl.big.MosaicJStatus */
 
 /*....................................................................
 	private variables
@@ -2783,7 +2802,7 @@ public MosaicJStatus (
 	GUI.center(this);
 	setResizable(false);
 	setVisible(true);
-} /* end MosaicJStatus */
+} /* end ch.epfl.big.MosaicJStatus */
 
 /*....................................................................
 	Subclasses
@@ -2961,10 +2980,10 @@ private ImportPanel (
 
 } /* end subclass ImportPanel */
 
-} /* end class MosaicJStatus */
+} /* end class ch.epfl.big.MosaicJStatus */
 
 /*====================================================================
-|	MosaicJThumb
+|	ch.epfl.big.MosaicJThumb
 \===================================================================*/
 class MosaicJThumb
 	extends
@@ -2972,7 +2991,7 @@ class MosaicJThumb
 	implements
 		MouseListener
 
-{ /* begin class MosaicJThumb */
+{ /* begin class ch.epfl.big.MosaicJThumb */
 
 /*....................................................................
 	public variables
@@ -3075,7 +3094,7 @@ public MosaicJThumb (
 	thumbnailArea.add(this);
 	incrementScrollWidth(width);
 	thumbnailArea.repaint();
-} /* end MosaicJThumb */
+} /* end ch.epfl.big.MosaicJThumb */
 
 /*------------------------------------------------------------------*/
 public MosaicJThumb (
@@ -3118,7 +3137,7 @@ public MosaicJThumb (
 	thumbnailArea.add(this);
 	incrementScrollWidth(width);
 	thumbnailArea.repaint();
-} /* end MosaicJThumb */
+} /* end ch.epfl.big.MosaicJThumb */
 
 /*------------------------------------------------------------------*/
 public MosaicJThumb (
@@ -3144,7 +3163,7 @@ public MosaicJThumb (
 		new ImageConverter(imp).convertRGBStackToRGB();
 	}
 	final FloatProcessor fp = getGray32Processor(imp, slice, false);
-} /* end MosaicJThumb */
+} /* end ch.epfl.big.MosaicJThumb */
 
 /*....................................................................
 	JComponent methods
@@ -4625,14 +4644,14 @@ private void symmetricFirMirrorOffBounds1D (
 	}
 } /* end symmetricFirMirrorOffBounds1D */
 
-} /* end class MosaicJThumb */
+} /* end class ch.epfl.big.MosaicJThumb */
 
 /*====================================================================
-|	MosaicJTree
+|	ch.epfl.big.MosaicJTree
 \===================================================================*/
 class MosaicJTree
 
-{ /*begin class MosaicJTree */
+{ /*begin class ch.epfl.big.MosaicJTree */
 
 /*....................................................................
 	static public methods
@@ -5629,5 +5648,4 @@ static private boolean pathExists (
 	}
 	return(false);
 } /* end pathExists */
-
-} /* end class MosaicJTree */
+} /* end class ch.epfl.big.MosaicJTree */
